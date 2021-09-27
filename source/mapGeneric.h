@@ -9,7 +9,7 @@ const int VAR = 3;//map objects variables count
 
 class MyMapGeneric {
 	randomize rand_;
-	coordinate size_;
+	vec2 size_;
 	std::vector<uint32_t> vec_;
 
 	sf::Image im_;
@@ -26,7 +26,7 @@ public:
 
 	void setSize(int32_t x, int32_t y);
 
-	coordinate getSize() const;
+	vec2 getSize() const;
 
 	const std::vector<uint32_t>& getVec()const;
 

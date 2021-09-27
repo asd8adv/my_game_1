@@ -17,7 +17,16 @@ void Icon::setPosition(int x, int y) {
 	icon_.setPosition(x, y);
 }
 
-coordinate Icon::getPosition() const {
+void Icon::setPosition(vec2 pos) {
+	setPosition(pos.x, pos.y);
+}
+
+
+void Icon::setScale(float scale) {
+	icon_.setScale(scale, scale);
+}
+
+vec2 Icon::getPosition() const {
 	return { int32_t(icon_.getPosition().x),int32_t(icon_.getPosition().y) };
 }
 
@@ -33,7 +42,7 @@ void Icon::setIconSize(int x, int y) {
 	iconSize_ = { x, y };
 }
 
-const coordinate& Icon::getIconSize() const {
+const vec2& Icon::getIconSize() const {
 	return iconSize_;
 }
 
@@ -41,13 +50,49 @@ void Icon::setTextureRect(int x, int y) {
 	icon_.setTextureRect(sf::IntRect(x, y, iconSize_.x, iconSize_.y));
 }
 
+
+/****************
+*******Text******
+****************/
+
+Text::Text(const std::string& text) {
+	text_.setString(text);
+	setFontSize(fontSize);
+};
+
+void Text::setText(const std::string& text) {
+	text_.setString(text);
+}
+
+void Text::setFontResource(const std::string& file) {
+	font_.loadFromFile(file);
+	text_.setFont(font_);
+}
+
+void Text::setTextColor(sf::Color color) {
+	//text_.setColor(color);
+	text_.setFillColor(color);
+}
+
+void Text::setFontSize(uint32_t size) {
+	fontSize = size;
+	text_.setCharacterSize(fontSize);
+}
+
+void Text::setPosition(vec2 pos) {
+	text_.setPosition(pos.x,pos.y);
+}
+
+void Text::draw(sf::RenderWindow& wind) {
+	wind.draw(text_);
+}
+
 /****************
 *****TextIcon***
 ****************/
 
-TextIcon::TextIcon(const std::string& file, const std::string& text, Dir orien) :orient_(orien), Base(file) {
+TextIcon::TextIcon(const std::string& file, const std::string& text, Dir orien) :orient_(orien), Base(file), Text(text){
 
-	text_.setString(text);
 }
 
 void TextIcon::setPosition(int x, int y) {
@@ -71,29 +116,9 @@ void TextIcon::setPosition(int x, int y) {
 	}
 }
 
-void TextIcon::setText(const std::string& text) {
-	text_.setString(text);
-}
-
-void TextIcon::setFontResource(const std::string& file) {
-	font_.loadFromFile(file);
-	text_.setFont(font_);
-}
-
-
-
-void TextIcon::setTextColor(sf::Color color) {
-	//text_.setColor(color);
-	text_.setFillColor(color);
-}
-
-void TextIcon::setFontSize(uint32_t size) {
-	fontSize = size;
-	text_.setCharacterSize(fontSize);
-}
 
 void TextIcon::draw(sf::RenderWindow& wind) {
-	wind.draw(text_);
+	Text::draw(wind);
 	Base::draw(wind);
 }
 

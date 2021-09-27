@@ -1,3 +1,4 @@
+#pragma once
 #include <random>  
 #include <memory>
 #include <string>
@@ -5,12 +6,6 @@
 #include <iostream>
 #include <ctime> 
 
-struct BaseObject {
-	int x;
-	int y;
-	int height;
-	int width;
-};
 
 struct TexturePosition {
 	int bot;
@@ -27,31 +22,41 @@ enum class Dir
 	rigth
 };
 
-struct coordinate {
+struct vec2 {
 	int32_t x = 0;
 	int32_t y = 0;
+	vec2() {};
+	vec2(int32_t X, int32_t Y) :x(X), y(Y)
+	{}
+
 	void set(int32_t X, int32_t Y) {
 		x = X;
 		y = Y;
 	}
 
-	friend bool operator>(const coordinate& first, const coordinate& second) {
+	friend bool operator>(const vec2& first, const vec2& second) {
 		if (first.x > second.x && first.y > second.y) {
 			return true;
 		}
 		return false;
 	}
 
-	friend bool operator<(const coordinate& first, const coordinate& second) {
+	friend bool operator<(const vec2& first, const vec2& second) {
 		if (first.x < second.x && first.y < second.y) {
 			return true;
 		}
 		return false;
 	}
-	friend coordinate operator+(const coordinate& first, const coordinate& second) {
+	friend vec2 operator+(const vec2& first, const vec2& second) {
 		return { (first.x + second.x), (first.y + second.y) };
 	}
-
+	friend vec2 operator-(const vec2& first, const vec2& second) {
+		return { (first.x - second.x), (first.y - second.y) };
+	}
+	friend std::ostream& operator<< (std::ostream& out, const vec2& point){
+		out << point.x << "," << point.y;
+		return out;
+	}
 };
 
 class randomize {
@@ -76,10 +81,3 @@ public:
 	}
 
 };
-
-static bool isCollision(BaseObject rectFirst, BaseObject rectSecond) {
-	return	rectFirst.x < rectSecond.x + rectSecond.width &&
-			rectFirst.x + rectFirst.width > rectSecond.x &&
-			rectFirst.y < rectSecond.y + rectSecond.height &&
-			rectFirst.y + rectFirst.height > rectSecond.y;
-}

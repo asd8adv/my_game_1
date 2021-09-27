@@ -1,4 +1,5 @@
 #include "character.h"
+#include "magicBox.h"
 
 Character::Character(sf::String resourceName) {
 	moveSpeed_ = 5;
@@ -67,10 +68,10 @@ void Character::setPosition(uint32_t x, uint32_t y) {
 	heroSprite_.setPosition(x, y);
 }
 
-coordinate Character::getPosition() const {
+vec2 Character::getPosition() const {
 	return { int32_t(heroSprite_.getPosition().x),int32_t(heroSprite_.getPosition().y) };
 }
 
-coordinate Character::getSize()const {
+vec2 Character::getSize()const {
 	return spriteSize_;
 }

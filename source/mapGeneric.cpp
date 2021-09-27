@@ -20,7 +20,7 @@ void MyMapGeneric::setSize(int32_t x, int32_t y) {
 	vec_.reserve(x * y);
 }
 
-coordinate MyMapGeneric::getSize() const {
+vec2 MyMapGeneric::getSize() const {
 	return size_;
 }
 

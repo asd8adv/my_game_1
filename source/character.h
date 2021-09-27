@@ -1,6 +1,7 @@
 #pragma once
 #include "mapGeneric.h"
 
+class vec2;
 
 class Character
 {
@@ -12,11 +13,11 @@ class Character
 	float currentFrame_;
 	int spriteCount_;
 
-	std::vector<coordinate> bot_;
-	std::vector<coordinate> top_;
-	std::vector<coordinate> left_;
-	std::vector<coordinate> right_;
-	coordinate spriteSize_;
+	std::vector<vec2> bot_;
+	std::vector<vec2> top_;
+	std::vector<vec2> left_;
+	std::vector<vec2> right_;
+	vec2 spriteSize_;
 public:
 	Character(sf::String resourceName);
 
@@ -32,8 +33,8 @@ public:
 
 	void setPosition(uint32_t x, uint32_t y);
 
-	coordinate getPosition() const;
+	vec2 getPosition() const;
 
-	coordinate getSize() const;
+	vec2 getSize() const;
 };
 

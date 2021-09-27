@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "character.h"
 #include "icons.h"
+#include "buttonManager.h"
 
 
 
@@ -36,14 +37,22 @@ int main()
 	gold.setTextColor(sf::Color::Blue);
 	gold.setFontSize(50);
 
+	auto btn=std::make_shared<bigButton> ("resource/btn_1.png","pressed it!!!");
+	btn->setCallback([]() {	std::cout << "u pressed it!!!" << "\n";	});
+	btn->setPosition({ 1000, 200 });
+	btn->setFontSize(12);
+	btn->setSize({ 160, 80 });
+	btn->setFontResource("resource/alagard.ttf");
+	btn->setTextColor(sf::Color::Blue);
 
+	ButtonManager man;
+	man.addButton(btn, 0);
 
 	while (window.isOpen())
 	{
-		float time = clock.getElapsedTime().asMicroseconds();
+		float dt = clock.getElapsedTime().asMicroseconds();
 		clock.restart();
-		time = time / 800;
-		std::cout << time << "\n";
+		dt = dt / 800;
 
 		while (window.pollEvent(event))
 		{
@@ -59,13 +68,19 @@ int main()
 				case(sf::Keyboard::A):
 				case(sf::Keyboard::S):
 				case(sf::Keyboard::D):
-					ch.move(event, time);
+					ch.move(event, dt);
 					break;
 				default:
 					break;
 				}
 			}
+			if (event.type = sf::Event::MouseMoved) {
+				auto pos = sf::Mouse::getPosition(window);
+				man.checkColision({ pos.x,pos.y });
+			}
 		}
+
+
 
 		window.clear();
 
@@ -73,7 +88,8 @@ int main()
 		window.draw(bord);
 		ch.draw(window);
 		gold.draw(window);
-		
+		man.update(dt);
+		man.draw(window);
 		window.display();
 	}
 
