@@ -37,7 +37,7 @@ int main()
 	gold.setTextColor(sf::Color::Blue);
 	gold.setFontSize(50);
 
-	auto btn=std::make_shared<bigButton> ("resource/btn_1.png","pressed it!!!");
+	auto btn=std::make_shared<bigButton> ("resource/btn_1.png","pressed it!!!", vec2( 1000, 200 ));
 	btn->setCallback([]() {	std::cout << "u pressed it!!!" << "\n";	});
 	btn->setPosition({ 1000, 200 });
 	btn->setFontSize(12);

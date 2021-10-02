@@ -47,12 +47,23 @@ struct vec2 {
 		}
 		return false;
 	}
+
 	friend vec2 operator+(const vec2& first, const vec2& second) {
 		return { (first.x + second.x), (first.y + second.y) };
 	}
+
 	friend vec2 operator-(const vec2& first, const vec2& second) {
 		return { (first.x - second.x), (first.y - second.y) };
 	}
+
+	friend vec2 operator*(const vec2& first, const vec2& second) {
+		return { (first.x * second.x), (first.y * second.y) };
+	}
+
+	friend vec2 operator*(const vec2& first, const float qf) {
+		return { int32_t(first.x *qf), int32_t(first.y * qf) };
+	}
+
 	friend std::ostream& operator<< (std::ostream& out, const vec2& point){
 		out << point.x << "," << point.y;
 		return out;

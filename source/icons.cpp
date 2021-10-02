@@ -50,6 +50,18 @@ void Icon::setTextureRect(int x, int y) {
 	icon_.setTextureRect(sf::IntRect(x, y, iconSize_.x, iconSize_.y));
 }
 
+void Icon::setIconPosition(vec2 pos) {
+	originalIconPosition_ = pos;
+	setPosition(pos);
+}
+
+vec2 Icon::getIconPosition() {
+	return originalIconPosition_;
+}
+
+void Icon::restorePosition() {
+	icon_.setPosition(originalIconPosition_.x, originalIconPosition_.y);
+}
 
 /****************
 *******Text******

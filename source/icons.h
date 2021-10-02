@@ -9,6 +9,7 @@ protected:
 	sf::Texture texture_;
 	sf::Sprite icon_;
 	vec2 iconSize_;
+	vec2 originalIconPosition_;
 public:
 	Icon(const std::string& file);
 
@@ -16,6 +17,12 @@ public:
 
 	virtual void setPosition(vec2 pos);
 
+	void setIconPosition(vec2 pos);
+
+	vec2 getIconPosition();
+
+	void restorePosition();
+	
 	virtual void setScale(float scale);
 	
 	vec2 getPosition() const;

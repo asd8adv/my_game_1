@@ -138,15 +138,13 @@ class bigButton : public BaseButton, public Text
 {
 	using Base = BaseButton;
 public:
-	bigButton(const std::string& resourceName, const std::string& text):Text(text), Base(resourceName) {
-		
+	bigButton(const std::string& resourceName, const std::string& text,const vec2& pos):Text(text), Base(resourceName) {
+		Base::setIconPosition(pos);
 	}
 
 	virtual void setScale(float scale) override {
 		if (scale != scale_) {
 			Base::setScale(scale);
-
-			std::cout << "scale=" << scale << "\n";
 		}
 	}
 
@@ -162,10 +160,11 @@ public:
 
 	virtual void setPosition(vec2 pos){
 		Base::setPosition(pos);
+		setScale(scale_);
 	}
 
-	virtual void setSize(vec2 size) {
-		Base::setIconSize(size.x, size.y);
+	void updateTextPos(vec2 size) {
+		size = size*scale_;
 		uint32_t sizeTex = (Text::text_.getCharacterSize() * Text::text_.getString().getSize());
 		sizeTex /= 2;
 		if (size.x < sizeTex) {
@@ -173,23 +172,48 @@ public:
 			Text::setPosition(Base::getPosition());
 			return;
 		}
+		
 		auto iconPos = Base::getPosition();
 		vec2 dPos((size.x - sizeTex) / 2, size.y / 2);
 		Text::setPosition(iconPos + dPos);
+	}
+
+	virtual void setSize(vec2 size) {
+		Base::setIconSize(size.x, size.y);
+		auto iconPos = Base::getPosition();
+		updateTextPos(size);
 		BaseObject::set(iconPos.x, iconPos.y, size.x, size.y);
+	}
+
+	void hovering(bool isHover) {
+		auto basePos = Base::getIconPosition();
+		auto baseSize = Base::getIconSize();
+		if (isHover) {
+			if(scale_>1.0f){
+				auto dpos = (baseSize * (scale_ - 1.0)) * 0.5f;
+				setPosition(basePos - dpos);
+			}
+		}
+		else {
+			restorePosition();
+
+		}
+		updateTextPos(getIconSize());
+
 
 	}
+
 
 	virtual bool checkHover(vec2 pos) override{//to do rename
 		auto haveCollision = isCollision(*this, pos);
 		if (haveCollision) {
-			std::cout << "1\n";
 			isHovered_ = true;
-			setScale(1.5f);
+			setScale(1.2f);
+			hovering(true);
 			return haveCollision;
 		}
-		std::cout << "0\n";
 		setScale(1.0f);
+		hovering(false);
 		return haveCollision;
 	}
 
